@@ -1,0 +1,35 @@
+<div class="sidebar">
+  <div class="sidebar__header">
+    <span class="sidebar__logo">FinanceApp</span>
+    <span class="sidebar__tagline">Управление финансами</span>
+  </div>
+
+  <mat-nav-list class="sidebar__list" role="navigation" aria-label="Основное меню">
+    @for (item of navItems; track item.label) {
+      @if (item.path !== null) {
+        <a
+          mat-list-item
+          class="sidebar__item"
+          [routerLink]="item.path"
+          routerLinkActive="sidebar__item--active"
+          [routerLinkActiveOptions]="{ exact: item.path === '/' }"
+        >
+          <mat-icon matListItemIcon class="sidebar__icon">{{ item.icon }}</mat-icon>
+          <span matListItemTitle>{{ item.label }}</span>
+        </a>
+      } @else {
+        <a mat-list-item class="sidebar__item" href="#" (click)="onStubClick($event)">
+          <mat-icon matListItemIcon class="sidebar__icon">{{ item.icon }}</mat-icon>
+          <span matListItemTitle>{{ item.label }}</span>
+        </a>
+      }
+    }
+  </mat-nav-list>
+
+  <div class="sidebar__footer">
+    <button mat-stroked-button type="button" class="sidebar__logout" (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      Выйти
+    </button>
+  </div>
+</div>

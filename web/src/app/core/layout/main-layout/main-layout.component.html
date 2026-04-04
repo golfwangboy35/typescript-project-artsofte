@@ -1,0 +1,32 @@
+<mat-sidenav-container class="main-layout">
+  <mat-sidenav
+    #drawer
+    class="main-layout__sidenav"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="(isHandset$ | async) !== true"
+    [fixedInViewport]="true"
+  >
+    <app-sidebar></app-sidebar>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="main-layout__shell">
+    @if (isHandset$ | async) {
+      <header class="main-layout__toolbar">
+        <button
+          mat-icon-button
+          type="button"
+          class="main-layout__menu-btn"
+          (click)="drawer.toggle()"
+          aria-label="Открыть меню"
+        >
+          <mat-icon>menu</mat-icon>
+        </button>
+        <span class="main-layout__toolbar-title">FinanceApp</span>
+      </header>
+    }
+
+    <main class="main-layout__content">
+      <router-outlet></router-outlet>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>

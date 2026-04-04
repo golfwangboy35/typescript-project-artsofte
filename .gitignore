@@ -1,0 +1,12 @@
+# Angular / Node (web/)
+web/node_modules/
+web/dist/
+web/.angular/
+web/coverage/
+web/.sass-cache/
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.idea/
+*.log

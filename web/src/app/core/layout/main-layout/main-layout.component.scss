@@ -1,0 +1,44 @@
+.main-layout {
+  min-height: 100vh;
+  background-color: #f1f5f9;
+
+  &__sidenav {
+    width: 260px;
+    border-right: 1px solid #e2e8f0;
+  }
+
+  &__shell {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f1f5f9;
+  }
+
+  &__toolbar {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    background: #fff;
+    border-bottom: 1px solid #e2e8f0;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+  }
+
+  &__menu-btn {
+    color: #334155;
+  }
+
+  &__toolbar-title {
+    font-weight: 600;
+    font-size: 1rem;
+    color: #2563eb;
+  }
+
+  &__content {
+    flex: 1;
+    padding: 1.5rem 1.75rem 2rem;
+    min-width: 0;
+  }
+}
