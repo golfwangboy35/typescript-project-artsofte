@@ -3,8 +3,8 @@ import { ApplicationConfig } from '@angular/core';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
 
-import { routes } from '@/app/app/app.routes';
-import { devApiMockInterceptor } from '@/app/entities/session/dev-api.mock.interceptor';
+import { devApiMockInterceptor } from '@app/dev-api.mock.interceptor';
+import { routes } from '@app/app.routes';
 
 export const appConfig: ApplicationConfig = {
   providers: [

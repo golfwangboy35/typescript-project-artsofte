@@ -8,7 +8,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { RouterOutlet } from '@angular/router';
 import { map } from 'rxjs/operators';
 
-import { SidebarComponent } from '@/app/core/layout/sidebar/sidebar.component';
+import { SidebarComponent } from '@features/main-page/sidebar/sidebar.component';
 
 @Component({
   selector: 'app-main-layout',
@@ -29,7 +29,7 @@ export class MainLayoutComponent {
   private readonly breakpointObserver = inject(BreakpointObserver);
 
   readonly isHandset = toSignal(
-    this.breakpointObserver.observe('(max-width: 959px)').pipe(map((result) => result.matches)),
+    this.breakpointObserver.observe('(max-width: 959px)').pipe(map(({ matches }) => matches)),
     { initialValue: false },
   );
 }

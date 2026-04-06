@@ -1,4 +1,3 @@
-// @ts-check
 const eslint = require("@eslint/js");
 const tseslint = require("typescript-eslint");
 const angular = require("angular-eslint");
@@ -14,8 +13,7 @@ module.exports = tseslint.config(
     ],
     processor: angular.processInlineTemplates,
     rules: {
-      // NgModule-based feature/core layout (lazy features later); not standalone-first.
-      "@angular-eslint/prefer-standalone": "off",
+      "@angular-eslint/prefer-standalone": "error",
       "@angular-eslint/directive-selector": [
         "error",
         {
@@ -30,6 +28,145 @@ module.exports = tseslint.config(
           type: "element",
           prefix: "app",
           style: "kebab-case",
+        },
+      ],
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              group: ["@/*", "@/app/*"],
+              message: "Use layer aliases or local relative imports inside src/app.",
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
+    files: ["src/app/app/**/*.ts"],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              group: ["@/*", "@/app/*"],
+              message: "Use layer aliases or local relative imports inside src/app.",
+            },
+            {
+              group: ["@pages/*", "**/pages/*"],
+              message: "App layer should reference pages only from routing configuration.",
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
+    files: ["src/app/pages/**/*.ts"],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              group: ["@/*", "@/app/*"],
+              message: "Use layer aliases or local relative imports inside src/app.",
+            },
+            {
+              group: ["@app/*", "**/app/*"],
+              message: "Pages must not depend on app-level implementation details.",
+            },
+            {
+              group: ["@pages/*", "**/pages/*"],
+              message: "Pages must not depend on other pages.",
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
+    files: ["src/app/features/**/*.ts"],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              group: ["@/*", "@/app/*"],
+              message: "Use layer aliases or local relative imports inside src/app.",
+            },
+            {
+              group: ["@app/*", "**/app/*"],
+              message: "Features must not depend on app-level implementation details.",
+            },
+            {
+              group: ["@pages/*", "**/pages/*"],
+              message: "Features must not depend on pages.",
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
+    files: ["src/app/entities/**/*.ts"],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              group: ["@/*", "@/app/*"],
+              message: "Use layer aliases or local relative imports inside src/app.",
+            },
+            {
+              group: ["@app/*", "**/app/*"],
+              message: "Entities must not depend on app layer.",
+            },
+            {
+              group: ["@pages/*", "**/pages/*"],
+              message: "Entities must not depend on pages.",
+            },
+            {
+              group: ["@features/*", "**/features/*"],
+              message: "Entities must not depend on features.",
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
+    files: ["src/app/shared/**/*.ts"],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              group: ["@/*", "@/app/*"],
+              message: "Use layer aliases or local relative imports inside src/app.",
+            },
+            {
+              group: ["@app/*", "**/app/*"],
+              message: "Shared must not depend on app layer.",
+            },
+            {
+              group: ["@pages/*", "**/pages/*"],
+              message: "Shared must not depend on pages.",
+            },
+            {
+              group: ["@features/*", "**/features/*"],
+              message: "Shared must not depend on features.",
+            },
+            {
+              group: ["@entities/*", "**/entities/*"],
+              message: "Shared must not depend on entities.",
+            },
+          ],
         },
       ],
     },

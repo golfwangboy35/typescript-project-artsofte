@@ -9,8 +9,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 
-import { emailValidator } from '@/app/shared/lib/validators/email.validator';
-import { passwordMatchValidator } from '@/app/shared/lib/validators/password-match.validator';
+import { emailValidator } from '@shared/validators/email.validator';
+import { passwordMatchValidator } from '@shared/validators/password-match.validator';
 import { AuthFacade } from './auth.facade';
 import type { AuthMode } from './auth.model';
 

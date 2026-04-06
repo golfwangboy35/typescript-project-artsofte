@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { AuthFormComponent } from '@/app/features/auth/auth-form/auth-form.component';
+import { AuthFormComponent } from '@features/auth/auth-form/auth-form.component';
 
 @Component({
   selector: 'app-register-page',

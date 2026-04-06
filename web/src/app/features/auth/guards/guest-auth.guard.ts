@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 
-import { SessionService } from '@/app/entities/session/session.service';
+import { SessionService } from '@entities/session/session.service';
 
 /** Redirects authenticated users away from login/register to the app shell. */
 export const guestAuthGuard: CanActivateFn = () => {

@@ -2,7 +2,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, EMPTY, finalize, from, map, switchMap } from 'rxjs';
 
-import { SessionService } from '@/app/entities/session/session.service';
+import { SessionService } from '@entities/session/session.service';
 import type { AuthCommand, AuthMode } from './auth.model';
 
 @Injectable()

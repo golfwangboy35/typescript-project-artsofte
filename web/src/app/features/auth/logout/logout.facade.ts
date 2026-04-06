@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { SessionService } from '@/app/entities/session/session.service';
+import { SessionService } from '@entities/session/session.service';
 
 @Injectable()
 export class LogoutFacade {
