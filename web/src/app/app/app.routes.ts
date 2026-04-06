@@ -2,31 +2,31 @@ import type { Routes } from '@angular/router';
 
 import { authGuard } from '@features/auth/guards/auth.guard';
 import { guestAuthGuard } from '@features/auth/guards/guest-auth.guard';
+import { DashboardPageComponent } from '@pages/dashboard/dashboard-page.component';
+import { MainLayoutComponent } from '@features/main-page/layout/main-layout.component';
+import { LoginPageComponent } from '@pages/login/login-page.component';
+import { RegisterPageComponent } from '@pages/register/register-page.component';
 
 export const routes: Routes = [
   {
     path: '',
-    loadComponent: () =>
-      import('@features/main-page/layout/main-layout.component').then((m) => m.MainLayoutComponent),
+    loadComponent: () => MainLayoutComponent,
     canActivate: [authGuard],
     children: [
       {
         path: '',
-        loadComponent: () =>
-          import('@pages/dashboard/dashboard-page.component').then((m) => m.DashboardPageComponent),
+        loadComponent: () => DashboardPageComponent,
       },
     ],
   },
   {
     path: 'login',
-    loadComponent: () =>
-      import('@pages/login/login-page.component').then((m) => m.LoginPageComponent),
+    loadComponent: () => LoginPageComponent,
     canActivate: [guestAuthGuard],
   },
   {
     path: 'register',
-    loadComponent: () =>
-      import('@pages/register/register-page.component').then((m) => m.RegisterPageComponent),
+    loadComponent: () => RegisterPageComponent,
     canActivate: [guestAuthGuard],
   },
   { path: '**', redirectTo: '' },
