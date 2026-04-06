@@ -1,18 +1,35 @@
-import { BreakpointObserver } from '@angular/cdk/layout';
+import { BreakpointObserver, LayoutModule } from '@angular/cdk/layout';
+import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { map, shareReplay } from 'rxjs/operators';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { RouterOutlet } from '@angular/router';
+import { map } from 'rxjs/operators';
+
+import { SidebarComponent } from '@/app/core/layout/sidebar/sidebar.component';
 
 @Component({
   selector: 'app-main-layout',
-  standalone: false,
+  standalone: true,
+  imports: [
+    CommonModule,
+    LayoutModule,
+    MatSidenavModule,
+    MatButtonModule,
+    MatIconModule,
+    RouterOutlet,
+    SidebarComponent,
+  ],
   templateUrl: './main-layout.component.html',
   styleUrl: './main-layout.component.scss',
 })
 export class MainLayoutComponent {
   private readonly breakpointObserver = inject(BreakpointObserver);
 
-  readonly isHandset$ = this.breakpointObserver.observe('(max-width: 959px)').pipe(
-    map((result) => result.matches),
-    shareReplay(1),
+  readonly isHandset = toSignal(
+    this.breakpointObserver.observe('(max-width: 959px)').pipe(map((result) => result.matches)),
+    { initialValue: false },
   );
 }

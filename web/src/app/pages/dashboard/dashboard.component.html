@@ -4,52 +4,54 @@
     <p class="dashboard__subtitle">Обзор ваших финансов за март 2026</p>
   </header>
 
-  <div class="dashboard__cards">
-    <mat-card class="dashboard__card" appearance="outlined">
-      <div class="dashboard__card-head">
-        <span class="dashboard__card-label">Баланс</span>
-        <mat-icon class="dashboard__card-icon dashboard__card-icon--primary">account_balance_wallet</mat-icon>
-      </div>
-      <p class="dashboard__card-value">{{ summary.balanceRub | number : '1.0-0' }}&nbsp;₽</p>
-      <span class="dashboard__card-foot">За текущий месяц</span>
-    </mat-card>
+  @if (summary(); as s) {
+    <div class="dashboard__cards">
+      <mat-card class="dashboard__card" appearance="outlined">
+        <div class="dashboard__card-head">
+          <span class="dashboard__card-label">Баланс</span>
+          <mat-icon class="dashboard__card-icon dashboard__card-icon--primary">account_balance_wallet</mat-icon>
+        </div>
+        <p class="dashboard__card-value">{{ s.balanceRub | number : '1.0-0' }}&nbsp;₽</p>
+        <span class="dashboard__card-foot">За текущий месяц</span>
+      </mat-card>
 
-    <mat-card class="dashboard__card" appearance="outlined">
-      <div class="dashboard__card-head">
-        <span class="dashboard__card-label">Доходы</span>
-        <mat-icon class="dashboard__card-icon dashboard__card-icon--income">trending_up</mat-icon>
-      </div>
-      <p class="dashboard__card-value dashboard__card-value--income">
-        {{ summary.incomeRub | number : '1.0-0' }}&nbsp;₽
-      </p>
-      <span class="dashboard__card-foot">Всего поступлений</span>
-    </mat-card>
+      <mat-card class="dashboard__card" appearance="outlined">
+        <div class="dashboard__card-head">
+          <span class="dashboard__card-label">Доходы</span>
+          <mat-icon class="dashboard__card-icon dashboard__card-icon--income">trending_up</mat-icon>
+        </div>
+        <p class="dashboard__card-value dashboard__card-value--income">
+          {{ s.incomeRub | number : '1.0-0' }}&nbsp;₽
+        </p>
+        <span class="dashboard__card-foot">Всего поступлений</span>
+      </mat-card>
 
-    <mat-card class="dashboard__card" appearance="outlined">
-      <div class="dashboard__card-head">
-        <span class="dashboard__card-label">Расходы</span>
-        <mat-icon class="dashboard__card-icon dashboard__card-icon--expense">trending_down</mat-icon>
-      </div>
-      <p class="dashboard__card-value dashboard__card-value--expense">
-        {{ summary.expensesRub | number : '1.0-0' }}&nbsp;₽
-      </p>
-      <span class="dashboard__card-foot">Всего трат</span>
-    </mat-card>
+      <mat-card class="dashboard__card" appearance="outlined">
+        <div class="dashboard__card-head">
+          <span class="dashboard__card-label">Расходы</span>
+          <mat-icon class="dashboard__card-icon dashboard__card-icon--expense">trending_down</mat-icon>
+        </div>
+        <p class="dashboard__card-value dashboard__card-value--expense">
+          {{ s.expensesRub | number : '1.0-0' }}&nbsp;₽
+        </p>
+        <span class="dashboard__card-foot">Всего трат</span>
+      </mat-card>
 
-    <mat-card class="dashboard__card" appearance="outlined">
-      <div class="dashboard__card-head">
-        <span class="dashboard__card-label">Транзакции</span>
-        <mat-icon class="dashboard__card-icon dashboard__card-icon--muted">credit_card</mat-icon>
-      </div>
-      <p class="dashboard__card-value">{{ summary.transactionCount }}</p>
-      <span class="dashboard__card-foot">Последних операций</span>
-    </mat-card>
-  </div>
+      <mat-card class="dashboard__card" appearance="outlined">
+        <div class="dashboard__card-head">
+          <span class="dashboard__card-label">Транзакции</span>
+          <mat-icon class="dashboard__card-icon dashboard__card-icon--muted">credit_card</mat-icon>
+        </div>
+        <p class="dashboard__card-value">{{ s.transactionCount }}</p>
+        <span class="dashboard__card-foot">Последних операций</span>
+      </mat-card>
+    </div>
+  }
 
   <mat-card class="dashboard__panel" appearance="outlined">
     <h2 class="dashboard__panel-title">Последние транзакции</h2>
     <ul class="dashboard__tx-list">
-      @for (tx of transactions; track tx.id) {
+      @for (tx of transactions(); track tx.id) {
         <li class="dashboard__tx">
           <div
             class="dashboard__tx-icon"

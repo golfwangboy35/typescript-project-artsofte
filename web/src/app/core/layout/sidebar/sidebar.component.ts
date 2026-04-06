@@ -1,7 +1,11 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
-import { AuthService } from '@/app/core/services/auth.service';
+import { LogoutFacade } from '@/app/features/auth/logout/logout.facade';
 
 export interface SidebarNavItem {
   label: string;
@@ -12,11 +16,15 @@ export interface SidebarNavItem {
 
 @Component({
   selector: 'app-sidebar',
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule, MatListModule, MatButtonModule, MatIconModule, RouterLink, RouterLinkActive],
+  providers: [LogoutFacade],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
 })
 export class SidebarComponent {
+  private readonly logoutFacade = inject(LogoutFacade);
+
   readonly navItems: SidebarNavItem[] = [
     { label: 'Dashboard', icon: 'dashboard', path: '/' },
     { label: 'Profile', icon: 'person', path: null },
@@ -24,17 +32,11 @@ export class SidebarComponent {
     { label: 'Analytics', icon: 'analytics', path: null },
   ];
 
-  constructor(
-    private readonly authService: AuthService,
-    private readonly router: Router,
-  ) {}
-
   onStubClick(event: Event): void {
     event.preventDefault();
   }
 
   logout(): void {
-    this.authService.logout();
-    void this.router.navigate(['/login']);
+    this.logoutFacade.logout();
   }
 }
