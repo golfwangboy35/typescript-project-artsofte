@@ -1,0 +1,107 @@
+<mat-card class="auth-form__card" appearance="outlined">
+  <mat-card-header class="auth-form__header">
+    <mat-card-title class="auth-form__title">
+      {{ isLogin ? 'Вход в систему' : 'Регистрация' }}
+    </mat-card-title>
+    <mat-card-subtitle class="auth-form__subtitle">
+      {{
+        isLogin
+          ? 'Введите ваш email и пароль для входа'
+          : 'Создайте аккаунт для управления финансами'
+      }}
+    </mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    @if (error(); as err) {
+      <p class="auth-form__error" role="alert">{{ err }}</p>
+    }
+
+    <form class="auth-form__body" [formGroup]="activeForm" (ngSubmit)="onSubmit()" novalidate>
+      <mat-form-field class="auth-form__field" appearance="fill" hideRequiredMarker>
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email" autocomplete="email" placeholder="email@example.com" />
+        @if (activeForm.controls['email'].touched && activeForm.controls['email'].hasError('required')) {
+          <mat-error>Укажите email.</mat-error>
+        }
+        @if (activeForm.controls['email'].touched && activeForm.controls['email'].hasError('email')) {
+          <mat-error>Введите корректный email.</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field class="auth-form__field" appearance="fill" hideRequiredMarker>
+        <mat-label>Пароль</mat-label>
+        <input
+          matInput
+          [type]="hidePassword() ? 'password' : 'text'"
+          formControlName="password"
+          [autocomplete]="isLogin ? 'current-password' : 'new-password'"
+          placeholder="••••••"
+        />
+        <button
+          mat-icon-button
+          matSuffix
+          type="button"
+          class="auth-form__suffix-btn"
+          (click)="hidePassword.set(!hidePassword())"
+          [attr.aria-label]="hidePassword() ? 'Показать пароль' : 'Скрыть пароль'"
+        >
+          <mat-icon>{{ hidePassword() ? 'visibility' : 'visibility_off' }}</mat-icon>
+        </button>
+        @if (activeForm.controls['password'].touched && activeForm.controls['password'].hasError('required')) {
+          <mat-error>Введите пароль.</mat-error>
+        }
+        @if (activeForm.controls['password'].touched && activeForm.controls['password'].hasError('minlength')) {
+          <mat-error>Минимум 6 символов.</mat-error>
+        }
+      </mat-form-field>
+
+      @if (!isLogin) {
+        <mat-form-field class="auth-form__field" appearance="fill" hideRequiredMarker>
+          <mat-label>Подтвердите пароль</mat-label>
+          <input
+            matInput
+            [type]="hideConfirmPassword() ? 'password' : 'text'"
+            formControlName="confirmPassword"
+            autocomplete="new-password"
+            placeholder="••••••"
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            class="auth-form__suffix-btn"
+            (click)="hideConfirmPassword.set(!hideConfirmPassword())"
+            [attr.aria-label]="hideConfirmPassword() ? 'Показать пароль' : 'Скрыть пароль'"
+          >
+            <mat-icon>{{ hideConfirmPassword() ? 'visibility' : 'visibility_off' }}</mat-icon>
+          </button>
+          @if (activeForm.controls['confirmPassword'].touched) {
+            @if (activeForm.controls['confirmPassword'].hasError('required')) {
+              <mat-error>Подтвердите пароль.</mat-error>
+            } @else if (
+              activeForm.hasError('passwordMismatch') &&
+              (activeForm.controls['confirmPassword'].touched || activeForm.controls['password'].touched)
+            ) {
+              <mat-error>Пароли не совпадают.</mat-error>
+            }
+          }
+        </mat-form-field>
+      }
+
+      <button mat-flat-button class="auth-form__submit" type="submit" [disabled]="activeForm.invalid || isLoading()">
+        {{ isLoading() ? 'Подождите…' : isLogin ? 'Войти' : 'Зарегистрироваться' }}
+      </button>
+    </form>
+
+    <div class="auth-form__switch">
+      @if (isLogin) {
+        <span class="auth-form__switch-text">Нет аккаунта?</span>
+        <a routerLink="/register" class="auth-form__switch-link">Зарегистрироваться</a>
+      } @else {
+        <span class="auth-form__switch-text">Уже есть аккаунт?</span>
+        <a routerLink="/login" class="auth-form__switch-link">Войти</a>
+      }
+    </div>
+  </mat-card-content>
+</mat-card>
