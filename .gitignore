@@ -1,12 +1,13 @@
-# Angular / Node (web/)
-web/node_modules/
-web/dist/
-web/.angular/
-web/coverage/
-web/.sass-cache/
+# Angular / Node
+node_modules/
+dist/
+.angular/
+coverage/
+.sass-cache/
 
 # OS / IDE
 .DS_Store
 Thumbs.db
 .idea/
 *.log
+.vscode/
