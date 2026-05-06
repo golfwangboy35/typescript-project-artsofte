@@ -1,0 +1,62 @@
+<section class="notifications">
+  <header class="notifications__header">
+    <div>
+      <h1 class="notifications__title">Уведомления</h1>
+      <p class="notifications__subtitle">
+        @if (unreadCount > 0) {
+          {{ unreadCount }} непрочитанных
+        } @else {
+          Все прочитаны
+        }
+      </p>
+    </div>
+    @if (unreadCount > 0) {
+      <button mat-stroked-button class="notifications__read-all-btn" (click)="markAllAsRead()">
+        <mat-icon>done_all</mat-icon>
+        Прочитать все
+      </button>
+    }
+  </header>
+
+  @if (error()) {
+    <p class="notifications__error">{{ error() }}</p>
+  }
+
+  <mat-card class="notifications__card" appearance="outlined">
+    @if (isLoading()) {
+      <div class="notifications__state">Загрузка...</div>
+    } @else if (notifications().length === 0) {
+      <div class="notifications__state">
+        <mat-icon>notifications_none</mat-icon>
+        <p>Уведомлений нет</p>
+      </div>
+    } @else {
+      <ul class="notifications__list">
+        @for (n of notifications(); track n.id) {
+          <li
+            class="notifications__item"
+            [class.notifications__item--unread]="!n.isRead"
+            (click)="markAsRead(n.id)"
+          >
+            <div
+              class="notifications__icon"
+              [class.notifications__icon--transaction]="n.type === 'transaction'"
+              [class.notifications__icon--system]="n.type === 'system'"
+              [class.notifications__icon--alert]="n.type === 'alert'"
+            >
+              <mat-icon>{{ typeIcon(n.type) }}</mat-icon>
+            </div>
+            <div class="notifications__body">
+              <span class="notifications__item-title">{{ n.title }}</span>
+              <span class="notifications__item-message">{{ n.message }}</span>
+              <span class="notifications__item-date">{{ n.createdAt }}</span>
+            </div>
+            @if (!n.isRead) {
+              <span class="notifications__dot"></span>
+            }
+          </li>
+        }
+      </ul>
+    }
+  </mat-card>
+</section>

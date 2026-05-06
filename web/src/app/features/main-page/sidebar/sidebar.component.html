@@ -14,7 +14,18 @@
           routerLinkActive="sidebar__item--active"
           [routerLinkActiveOptions]="{ exact: item.path === '/' }"
         >
-          <mat-icon matListItemIcon class="sidebar__icon">{{ item.icon }}</mat-icon>
+          <div matListItemIcon class="sidebar__icon-wrap">
+            @if (item.icon === 'notifications' && unreadCount() > 0) {
+              <mat-icon
+                [matBadge]="unreadCount()"
+                matBadgeColor="warn"
+                matBadgeSize="small"
+                class="sidebar__icon"
+              >{{ item.icon }}</mat-icon>
+            } @else {
+              <mat-icon class="sidebar__icon">{{ item.icon }}</mat-icon>
+            }
+          </div>
           <span matListItemTitle>{{ item.label }}</span>
         </a>
       } @else {
@@ -27,6 +38,13 @@
   </mat-nav-list>
 
   <div class="sidebar__footer">
+    <div class="sidebar__user">
+      <div class="sidebar__user-avatar">{{ userInitials }}</div>
+      <div class="sidebar__user-info">
+        <span class="sidebar__user-name">{{ userName }}</span>
+        <span class="sidebar__user-email">{{ userEmail }}</span>
+      </div>
+    </div>
     <button mat-stroked-button type="button" class="sidebar__logout" (click)="logout()">
       <mat-icon>logout</mat-icon>
       Выйти
