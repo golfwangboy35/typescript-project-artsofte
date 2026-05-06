@@ -1,0 +1,107 @@
+<section class="profile">
+  <header class="profile__header">
+    <h1 class="profile__title">Профиль</h1>
+    <p class="profile__subtitle">Управление личными данными</p>
+  </header>
+
+  @if (error()) {
+    <p class="profile__error">{{ error() }}</p>
+  }
+
+  @if (profile(); as p) {
+    <div class="profile__layout">
+
+      <mat-card class="profile__avatar-card" appearance="outlined">
+        <div class="profile__avatar-wrap">
+          <div class="profile__avatar">
+            @if (p.avatarUrl) {
+              <img [src]="p.avatarUrl" alt="Аватар" class="profile__avatar-img" />
+            } @else {
+              <span class="profile__avatar-initials">{{ getInitials() }}</span>
+            }
+            <button mat-mini-fab class="profile__avatar-btn" color="primary" matTooltip="Загрузить фото">
+              <mat-icon>photo_camera</mat-icon>
+            </button>
+          </div>
+          <p class="profile__avatar-hint">Нажмите на иконку камеры для загрузки нового фото</p>
+        </div>
+        <div class="profile__info">
+          <div class="profile__info-item">
+            <span class="profile__info-label">Email</span>
+            <span class="profile__info-value">{{ p.email }}</span>
+          </div>
+          <div class="profile__info-item">
+            <span class="profile__info-label">Имя</span>
+            <span class="profile__info-value">{{ p.name }}</span>
+          </div>
+          <div class="profile__info-item">
+            <span class="profile__info-label">Валюта</span>
+            <span class="profile__info-value">{{ p.currency }}</span>
+          </div>
+        </div>
+      </mat-card>
+
+      <mat-card class="profile__settings-card" appearance="outlined">
+        <h2 class="profile__section-title">Настройки профиля</h2>
+
+        <div class="profile__form">
+          <mat-form-field appearance="outline" class="profile__field">
+            <mat-label>Имя</mat-label>
+            <input matInput [ngModel]="name()" (ngModelChange)="name.set($event)" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="profile__field">
+            <mat-label>Email</mat-label>
+            <input matInput [value]="p.email" readonly />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="profile__field">
+            <mat-label>Валюта</mat-label>
+            <mat-select [ngModel]="currency()" (ngModelChange)="currency.set($event)">
+              @for (c of currencies; track c.value) {
+                <mat-option [value]="c.value">{{ c.label }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="profile__field">
+            <mat-label>Язык интерфейса</mat-label>
+            <mat-select [ngModel]="language()" (ngModelChange)="language.set($event)">
+              @for (l of languages; track l.value) {
+                <mat-option [value]="l.value">{{ l.label }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="profile__actions">
+          <button
+            mat-flat-button
+            class="profile__save-btn"
+            [disabled]="isSaving()"
+            (click)="save()"
+          >
+            {{ isSaving() ? 'Сохранение...' : 'Сохранить изменения' }}
+          </button>
+          @if (saveSuccess()) {
+            <span class="profile__save-ok">
+              <mat-icon>check_circle</mat-icon>
+              Сохранено
+            </span>
+          }
+        </div>
+      </mat-card>
+
+      <mat-card class="profile__security-card" appearance="outlined">
+        <h2 class="profile__section-title">Безопасность</h2>
+        <p class="profile__security-hint">
+          Для изменения пароля или других параметров безопасности обратитесь к администратору системы.
+        </p>
+        <button mat-stroked-button class="profile__password-btn">
+          Изменить пароль
+        </button>
+      </mat-card>
+
+    </div>
+  }
+</section>

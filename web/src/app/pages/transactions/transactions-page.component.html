@@ -1,0 +1,108 @@
+<section class="transactions">
+  <header class="transactions__header">
+    <div>
+      <h1 class="transactions__title">Транзакции</h1>
+      <p class="transactions__subtitle">Управление доходами и расходами</p>
+    </div>
+    <button mat-flat-button class="transactions__add-btn" color="primary">
+      <mat-icon>add</mat-icon>
+      Добавить транзакцию
+    </button>
+  </header>
+
+  <div class="transactions__filters">
+    <div class="transactions__filter-search">
+      <mat-icon class="transactions__filter-search-icon">search</mat-icon>
+      <input
+        class="transactions__filter-input"
+        placeholder="Поиск..."
+        [ngModel]="search()"
+        (ngModelChange)="search.set($event); applyFilters()"
+      />
+    </div>
+
+    <div class="transactions__filter-select-wrap">
+      <select
+        class="transactions__filter-select"
+        [ngModel]="selectedType()"
+        (ngModelChange)="selectedType.set($event); applyFilters()"
+      >
+        <option value="all">Все типы</option>
+        <option value="income">Доход</option>
+        <option value="expense">Расход</option>
+      </select>
+    </div>
+
+    <div class="transactions__filter-select-wrap">
+      <select
+        class="transactions__filter-select"
+        [ngModel]="selectedCategory()"
+        (ngModelChange)="selectedCategory.set($event); applyFilters()"
+      >
+        <option value="all">Все категории</option>
+        @for (cat of categories(); track cat) {
+          <option [value]="cat">{{ cat }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="transactions__filter-divider"></div>
+
+    <button class="transactions__reset-btn" (click)="resetFilters()">
+      <mat-icon>filter_list</mat-icon>
+      Сбросить
+    </button>
+  </div>
+
+  @if (error()) {
+    <p class="transactions__error">{{ error() }}</p>
+  }
+
+  <mat-card class="transactions__list-card" appearance="outlined">
+    @if (isLoading()) {
+      <div class="transactions__loading">Загрузка...</div>
+    } @else if (transactions().length === 0) {
+      <div class="transactions__empty">
+        <mat-icon>receipt_long</mat-icon>
+        <p>Транзакции не найдены</p>
+      </div>
+    } @else {
+      <ul class="transactions__list">
+        @for (tx of transactions(); track tx.id) {
+          <li class="transactions__item">
+            <div class="transactions__item-body">
+              <span class="transactions__item-title">{{ tx.title }}</span>
+              <span class="transactions__item-meta">{{ tx.category }} &bull; {{ tx.dateLabel }}</span>
+            </div>
+            <div class="transactions__item-right">
+              <div class="transactions__item-amount-block">
+                <span
+                  class="transactions__item-amount"
+                  [class.transactions__item-amount--income]="tx.kind === 'income'"
+                  [class.transactions__item-amount--expense]="tx.kind === 'expense'"
+                >
+                  {{ tx.kind === 'income' ? '+' : '−' }}{{ tx.amountRub | number : '1.0-0' }}&nbsp;₽
+                </span>
+                <span
+                  class="transactions__item-type"
+                  [class.transactions__item-type--income]="tx.kind === 'income'"
+                  [class.transactions__item-type--expense]="tx.kind === 'expense'"
+                >
+                  {{ tx.kind === 'income' ? 'Доход' : 'Расход' }}
+                </span>
+              </div>
+              <div class="transactions__item-actions">
+                <button mat-icon-button matTooltip="Редактировать" class="transactions__action-btn transactions__action-btn--edit">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button matTooltip="Удалить" class="transactions__action-btn transactions__action-btn--delete">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </div>
+          </li>
+        }
+      </ul>
+    }
+  </mat-card>
+</section>
